@@ -190,6 +190,9 @@ func (c *conn) readPacket() (*Response, error) {
 			c.Conn.RemoteAddr(), p.SeqId)
 
 	case *Cmpp3SubmitReqPkt:
+		//set conn's spid to req packet to prevent the client fraud
+		p.MsgSrc = c.Conn.SpId
+		
 		pkt = &Packet{
 			Packer: p,
 			Conn:   c.Conn,
