@@ -154,7 +154,7 @@ type Cmpp3SubmitRspPkt struct {
 func (p *Cmpp2SubmitReqPkt) Pack(seqId uint32) ([]byte, error) {
 	var pktLen uint32 = CMPP_HEADER_LEN + 117 + uint32(p.DestUsrTl)*21 + 1 + uint32(p.MsgLength) + 8
 
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, pktLen)
@@ -200,7 +200,7 @@ func (p *Cmpp2SubmitReqPkt) Pack(seqId uint32) ([]byte, error) {
 // Usually it is used in server side. After unpack, you will get all value of fields in
 // Cmpp2SubmitReqPkt struct.
 func (p *Cmpp2SubmitReqPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)
@@ -268,7 +268,7 @@ func (p *Cmpp2SubmitReqPkt) Unpack(data []byte) error {
 func (p *Cmpp2SubmitRspPkt) Pack(seqId uint32) ([]byte, error) {
 	var pktLen uint32 = CMPP_HEADER_LEN + 8 + 1
 
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, pktLen)
@@ -287,7 +287,7 @@ func (p *Cmpp2SubmitRspPkt) Pack(seqId uint32) ([]byte, error) {
 // Usually it is used in client side. After unpack, you will get all value of fields in
 // Cmpp2SubmitRspPkt struct.
 func (p *Cmpp2SubmitRspPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)
@@ -304,7 +304,7 @@ func (p *Cmpp2SubmitRspPkt) Unpack(data []byte) error {
 func (p *Cmpp3SubmitReqPkt) Pack(seqId uint32) ([]byte, error) {
 	var pktLen uint32 = CMPP_HEADER_LEN + 129 + uint32(p.DestUsrTl)*32 + 1 + 1 + uint32(p.MsgLength) + 20
 
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, pktLen)
@@ -352,7 +352,7 @@ func (p *Cmpp3SubmitReqPkt) Pack(seqId uint32) ([]byte, error) {
 // Usually it is used in server side. After unpack, you will get all value of fields in
 // Cmpp3SubmitReqPkt struct.
 func (p *Cmpp3SubmitReqPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)
@@ -422,7 +422,7 @@ func (p *Cmpp3SubmitReqPkt) Unpack(data []byte) error {
 func (p *Cmpp3SubmitRspPkt) Pack(seqId uint32) ([]byte, error) {
 	var pktLen uint32 = CMPP_HEADER_LEN + 8 + 4
 
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, pktLen)
@@ -441,7 +441,7 @@ func (p *Cmpp3SubmitRspPkt) Pack(seqId uint32) ([]byte, error) {
 // Usually it is used in client side. After unpack, you will get all value of fields in
 // Cmpp3SubmitRspPkt struct.
 func (p *Cmpp3SubmitRspPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)

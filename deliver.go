@@ -113,7 +113,7 @@ type Cmpp3DeliverRspPkt struct {
 func (p *Cmpp2DeliverReqPkt) Pack(seqId uint32) ([]byte, error) {
 	var pktLen uint32 = CMPP_HEADER_LEN + 65 + uint32(p.MsgLength) + 8
 
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, pktLen)
@@ -141,7 +141,7 @@ func (p *Cmpp2DeliverReqPkt) Pack(seqId uint32) ([]byte, error) {
 // After unpack, you will get all value of fields in
 // Cmpp2DeliverReqPkt struct.
 func (p *Cmpp2DeliverReqPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)
@@ -179,7 +179,7 @@ func (p *Cmpp2DeliverReqPkt) Unpack(data []byte) error {
 func (p *Cmpp2DeliverRspPkt) Pack(seqId uint32) ([]byte, error) {
 	var pktLen uint32 = Cmpp2DeliverRspPktLen
 
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, pktLen)
@@ -198,7 +198,7 @@ func (p *Cmpp2DeliverRspPkt) Pack(seqId uint32) ([]byte, error) {
 // After unpack, you will get all value of fields in
 // Cmpp2DeliverRspPkt struct.
 func (p *Cmpp2DeliverRspPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)
@@ -213,7 +213,7 @@ func (p *Cmpp2DeliverRspPkt) Unpack(data []byte) error {
 func (p *Cmpp3DeliverReqPkt) Pack(seqId uint32) ([]byte, error) {
 	var pktLen uint32 = CMPP_HEADER_LEN + 77 + uint32(p.MsgLength) + 20
 
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, pktLen)
@@ -242,7 +242,7 @@ func (p *Cmpp3DeliverReqPkt) Pack(seqId uint32) ([]byte, error) {
 // After unpack, you will get all value of fields in
 // Cmpp3DeliverReqPkt struct.
 func (p *Cmpp3DeliverReqPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)
@@ -280,7 +280,7 @@ func (p *Cmpp3DeliverReqPkt) Unpack(data []byte) error {
 // Pack packs the Cmpp3DeliverRspPkt to bytes stream for client side.
 func (p *Cmpp3DeliverRspPkt) Pack(seqId uint32) ([]byte, error) {
 	var pktLen uint32 = Cmpp3DeliverRspPktLen
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, pktLen)
@@ -299,7 +299,7 @@ func (p *Cmpp3DeliverRspPkt) Pack(seqId uint32) ([]byte, error) {
 // After unpack, you will get all value of fields in
 // Cmpp3DeliverRspPkt struct.
 func (p *Cmpp3DeliverRspPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)

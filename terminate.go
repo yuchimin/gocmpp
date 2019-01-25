@@ -34,7 +34,7 @@ type CmppTerminateRspPkt struct {
 func (p *CmppTerminateReqPkt) Pack(seqId uint32) ([]byte, error) {
 	var pktLen = CmppTerminateReqPktLen
 
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, pktLen)
@@ -49,7 +49,7 @@ func (p *CmppTerminateReqPkt) Pack(seqId uint32) ([]byte, error) {
 // After unpack, you will get all value of fields in
 // CmppTerminateReqPkt struct.
 func (p *CmppTerminateReqPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)
@@ -60,7 +60,7 @@ func (p *CmppTerminateReqPkt) Unpack(data []byte) error {
 func (p *CmppTerminateRspPkt) Pack(seqId uint32) ([]byte, error) {
 	var pktLen = CmppTerminateRspPktLen
 
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, pktLen)
@@ -75,7 +75,7 @@ func (p *CmppTerminateRspPkt) Pack(seqId uint32) ([]byte, error) {
 // After unpack, you will get all value of fields in
 // CmppTerminateRspPkt struct.
 func (p *CmppTerminateRspPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)

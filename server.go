@@ -140,6 +140,9 @@ func (c *conn) readPacket() (*Response, error) {
 	var rsp *Response
 	switch p := i.(type) {
 	case *CmppConnReqPkt:
+		//set the spid to conn
+		c.Conn.SpId = p.SrcAddr
+
 		pkt = &Packet{
 			Packer: p,
 			Conn:   c.Conn,
@@ -166,8 +169,11 @@ func (c *conn) readPacket() (*Response, error) {
 			c.server.ErrorLog.Printf("receive a cmpp20 connect request from %v[%d]\n",
 				c.Conn.RemoteAddr(), p.SeqId)
 		}
-
+		
 	case *Cmpp2SubmitReqPkt:
+		//set conn's spid to req packet to prevent the client fraud
+		p.MsgSrc = c.Conn.SpId
+
 		pkt = &Packet{
 			Packer: p,
 			Conn:   c.Conn,
@@ -332,10 +338,13 @@ func (c *conn) close() {
 }
 
 func (c *conn) finishPacket(r *Response) error {
-	if _, ok := r.Packet.Packer.(*CmppActiveTestRspPkt); ok {
-		atomic.AddInt32(&c.counter, -1)
-		return nil
-	}
+	//if _, ok := r.Packet.Packer.(*CmppActiveTestRspPkt); ok {
+	//	atomic.AddInt32(&c.counter, -1)
+	//	return nil
+	//}
+
+	//reset c.counter = 0
+	atomic.StoreInt32(&c.counter, 0)
 
 	if r.Packer == nil {
 		// For response packet received, it need not

@@ -116,7 +116,7 @@ type Cmpp3ConnRspPkt struct {
 // Before calling Pack, you should initialize a CmppConnReqPkt variable
 // with correct SourceAddr(SrcAddr), Secret and Version.
 func (p *CmppConnReqPkt) Pack(seqId uint32) ([]byte, error) {
-	var w = newPacketWriter(CmppConnReqPktLen)
+	var w = NewPacketWriter(CmppConnReqPktLen)
 
 	// Pack header
 	w.WriteInt(binary.BigEndian, CmppConnReqPktLen)
@@ -152,7 +152,7 @@ func (p *CmppConnReqPkt) Pack(seqId uint32) ([]byte, error) {
 // Usually it is used in server side. After unpack, you will get SeqId, SourceAddr,
 // AuthenticatorSource, Version and Timestamp.
 func (p *CmppConnReqPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)
@@ -179,7 +179,7 @@ func (p *CmppConnReqPkt) Unpack(data []byte) error {
 // Before calling Pack, you should initialize a Cmpp2ConnRspPkt variable
 // with correct Status,AuthenticatorSource, Secret and Version.
 func (p *Cmpp2ConnRspPkt) Pack(seqId uint32) ([]byte, error) {
-	var w = newPacketWriter(Cmpp2ConnRspPktLen)
+	var w = NewPacketWriter(Cmpp2ConnRspPktLen)
 
 	// pack header
 	w.WriteInt(binary.BigEndian, Cmpp2ConnRspPktLen)
@@ -207,7 +207,7 @@ func (p *Cmpp2ConnRspPkt) Pack(seqId uint32) ([]byte, error) {
 // AuthenticatorIsmg, and Version.
 // Parameter data contains seqId in header and the whole packet body.
 func (p *Cmpp2ConnRspPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)
@@ -229,7 +229,7 @@ func (p *Cmpp2ConnRspPkt) Unpack(data []byte) error {
 // Before calling Pack, you should initialize a Cmpp3ConnRspPkt variable
 // with correct Status,AuthenticatorSource, Secret and Version.
 func (p *Cmpp3ConnRspPkt) Pack(seqId uint32) ([]byte, error) {
-	var w = newPacketWriter(Cmpp3ConnRspPktLen)
+	var w = NewPacketWriter(Cmpp3ConnRspPktLen)
 
 	// pack header
 	w.WriteInt(binary.BigEndian, Cmpp3ConnRspPktLen)
@@ -263,7 +263,7 @@ func (p *Cmpp3ConnRspPkt) Pack(seqId uint32) ([]byte, error) {
 // AuthenticatorIsmg, and Version.
 // Parameter data contains seqId in header and the whole packet body.
 func (p *Cmpp3ConnRspPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	// Sequence Id
 	r.ReadInt(binary.BigEndian, &p.SeqId)

@@ -113,7 +113,7 @@ func TestOpError(t *testing.T) {
 
 func TestPacketWriter(t *testing.T) {
 	//test WriteString
-	w1 := newPacketWriter(11)
+	w1 := NewPacketWriter(11)
 
 	w1.WriteString("hello")
 	w1.WriteString(" golang")
@@ -129,7 +129,7 @@ func TestPacketWriter(t *testing.T) {
 
 	// test WriteInt
 	var i uint16 = 0x1234
-	w2 := newPacketWriter(10)
+	w2 := NewPacketWriter(10)
 	w2.WriteInt(binary.BigEndian, i)
 
 	s2, e := w2.Bytes()
@@ -142,7 +142,7 @@ func TestPacketWriter(t *testing.T) {
 	}
 
 	// test WriteFixedSizeString
-	w3 := newPacketWriter(10)
+	w3 := NewPacketWriter(10)
 	w3.WriteFixedSizeString("hello", 9)
 	s3, e := w3.Bytes()
 	if e != nil {
@@ -158,7 +158,7 @@ func TestPacketWriter(t *testing.T) {
 	}
 
 	// test WriteByte
-	w4 := newPacketWriter(10)
+	w4 := NewPacketWriter(10)
 	w4.WriteByte('h')
 	w4.WriteByte('e')
 	s4, e := w4.Bytes()
@@ -178,7 +178,7 @@ func TestPacketWriter(t *testing.T) {
 func TestPacketReader(t *testing.T) {
 	// test ReadBytes
 	s1 := []byte{'h', 'e', 'l', 'l', 'o'}
-	r1 := newPacketReader(s1)
+	r1 := NewPacketReader(s1)
 
 	d1 := make([]byte, 3)
 	r1.ReadBytes(d1)
@@ -199,7 +199,7 @@ func TestPacketReader(t *testing.T) {
 	// test ReadInt
 	s2 := []byte{0x12, 0x34}
 	var i uint16
-	r2 := newPacketReader(s2)
+	r2 := NewPacketReader(s2)
 	r2.ReadInt(binary.BigEndian, &i)
 	if r2.Error() != nil {
 		t.Fatalf("packetReader's err : actual [%#v], wanted[nil]\n", r1.Error())
@@ -210,7 +210,7 @@ func TestPacketReader(t *testing.T) {
 
 	// test ReadByte
 	s3 := []byte{'h', 'e', 'l', 'l', 'o'}
-	r3 := newPacketReader(s3)
+	r3 := NewPacketReader(s3)
 	c := r3.ReadByte()
 	if c != 'h' {
 		t.Fatalf("packetReader's err : actual [%c], wanted[%c]\n", c, 'h')
@@ -243,7 +243,7 @@ func TestPacketReader(t *testing.T) {
 
 	// test ReadCString
 	s4 := []byte{'h', 'e', 'l', 'l', 'o', 0, 0, 0, 0}
-	r4 := newPacketReader(s4)
+	r4 := NewPacketReader(s4)
 	d4 := r4.ReadCString(9)
 
 	if len(d4) != 5 {

@@ -179,7 +179,7 @@ type packetWriter struct {
 	err *OpError
 }
 
-func newPacketWriter(initSize uint32) *packetWriter {
+func NewPacketWriter(initSize uint32) *packetWriter {
 	buf := make([]byte, 0, initSize)
 	return &packetWriter{
 		wb: bytes.NewBuffer(buf),
@@ -285,7 +285,7 @@ type packetReader struct {
 	cbuf [maxCStringSize]byte
 }
 
-func newPacketReader(data []byte) *packetReader {
+func NewPacketReader(data []byte) *packetReader {
 	return &packetReader{
 		rb: bytes.NewBuffer(data),
 	}

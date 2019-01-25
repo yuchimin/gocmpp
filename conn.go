@@ -44,7 +44,8 @@ type Conn struct {
 	net.Conn
 	State State
 	Typ   Type
-
+	//set the sp id when connected
+	SpId  string 
 	// for SeqId generator goroutine
 	SeqId <-chan uint32
 	done  chan<- struct{}

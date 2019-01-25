@@ -33,7 +33,7 @@ type CmppReceiptPkt struct {
 func (p *CmppReceiptPkt) Pack() ([]byte, error) {
 	var pktLen uint32 = CmppReceiptPktLen
 
-	var w = newPacketWriter(pktLen)
+	var w = NewPacketWriter(pktLen)
 
 	w.WriteInt(binary.BigEndian, p.MsgId)
 	w.WriteFixedSizeString(p.Stat, 7)
@@ -49,7 +49,7 @@ func (p *CmppReceiptPkt) Pack() ([]byte, error) {
 // After unpack, you will get all value of fields in
 // CmppReceiptPkt struct.
 func (p *CmppReceiptPkt) Unpack(data []byte) error {
-	var r = newPacketReader(data)
+	var r = NewPacketReader(data)
 
 	r.ReadInt(binary.BigEndian, &p.MsgId)
 
