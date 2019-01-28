@@ -7,7 +7,7 @@ import (
 	"net"
 	"time"
 
-	cmpp "github.com/bigwhite/gocmpp"
+	cmpp "github.com/yuchimin/gocmpp"
 	"github.com/bigwhite/gocmpp/utils"
 )
 
