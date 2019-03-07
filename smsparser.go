@@ -25,7 +25,7 @@ func (p *SmsParser) reset(key string, fmt uint8, total uint8) {
 	p.segments = make([][]byte, total)
 }
 
-func (p *SmsParser) Parse(biz string, phoneNum string, msgId uint64, tpUdhi uint8, msgFmt uint8, msgContent string) (string, []uint64) {
+func (p *SmsParser) Parse(biz string, phoneNum string, msgId uint64, tpUdhi uint8, msgFmt uint8, msgContent string) (string, []uint64, error) {
 	if(tpUdhi==1) {
 		//长短信
 		buf := []byte(msgContent)
@@ -37,23 +37,25 @@ func (p *SmsParser) Parse(biz string, phoneNum string, msgId uint64, tpUdhi uint
 		if(p.key!=key) {
 			p.reset(key, msgFmt, h_total)
 		}
+
 		p.segments[h_index-1] = buf[h_len+1:]
 		p.msgIds[h_index-1] = msgId
 		p.len += len(p.segments[h_index-1])
 
 		for i := uint8(0); i < h_total; i++ {
 			if p.segments[i] == nil {
-				return "", nil
+				return "", nil, nil
 			} 
 		}
+
 		buf = bytes.Join(p.segments, []byte(""))
-		cont, _ := getMsgContent(string(buf), p.fmt)
+		cont, err := getMsgContent(string(buf), p.fmt)
 		p.reset("", 8, 1)
-		return cont, p.msgIds
+		return cont, p.msgIds, err
 	} else {
 		//普通短信
-		cont, _ := getMsgContent(msgContent, msgFmt)
-		return cont, []uint64{msgId}
+		cont, err := getMsgContent(msgContent, msgFmt)
+		return cont, []uint64{msgId}, err
 	}
 }
 
