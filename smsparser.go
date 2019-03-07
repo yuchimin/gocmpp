@@ -50,8 +50,9 @@ func (p *SmsParser) Parse(biz string, phoneNum string, msgId uint64, tpUdhi uint
 
 		buf = bytes.Join(p.segments, []byte(""))
 		cont, err := getMsgContent(string(buf), p.fmt)
+		ids := p.msgIds[:]
 		p.reset("", 8, 1)
-		return cont, p.msgIds, err
+		return cont, ids, err
 	} else {
 		//普通短信
 		cont, err := getMsgContent(msgContent, msgFmt)
