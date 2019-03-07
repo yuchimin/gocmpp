@@ -23,7 +23,7 @@ func (p *SmsParser) reset(key string, fmt uint8, total uint8) {
 	p.segments = make([][]byte, total)
 }
 
-func (p *SmsParser) parse(biz string, phoneNum string, tpUdhi uint8, msgFmt uint8, msgContent string) (string, error) {
+func (p *SmsParser) Parse(biz string, phoneNum string, tpUdhi uint8, msgFmt uint8, msgContent string) (string, error) {
 	if(tpUdhi==1) {
 		//长短信
 		buf := []byte(msgContent)
