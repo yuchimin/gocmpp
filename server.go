@@ -123,7 +123,7 @@ func (srv *Server) Serve(l net.Listener) error {
 			continue
 		}
 
-		srv.ErrorLog.Printf("accept a connection from %v\n", c.Conn.RemoteAddr())
+		srv.ErrorLog.Printf("accept a connection from %v idx=[%d]\n", c.Conn.RemoteAddr(), c.Conn.Idx)
 		go c.serve()
 	}
 }
@@ -332,11 +332,11 @@ func (c *conn) close() {
 
 	err := c.Conn.SendPkt(p, <-c.Conn.SeqId)
 	if err != nil {
-		c.server.ErrorLog.Printf("send cmpp terminate request packet to %v[%d] error: %v\n", c.Conn.RemoteAddr(), c.Conn.Idx, err)
+		c.server.ErrorLog.Printf("send cmpp terminate request packet to %v idx=[%d] error: %v\n", c.Conn.RemoteAddr(), c.Conn.Idx, err)
 	}
 
 	close(c.done)
-	c.server.ErrorLog.Printf("close connection with %v[%d]!\n", c.Conn.RemoteAddr(), c.Conn.Idx)
+	c.server.ErrorLog.Printf("close connection with %v idx=[%d]!\n", c.Conn.RemoteAddr(), c.Conn.Idx)
 	c.Conn.Close()
 }
 
@@ -374,7 +374,7 @@ func startActiveTest(c *conn) {
 			case <-t.C:
 				// check whether c.counter exceeds
 				if atomic.LoadInt32(&c.counter) >= c.n {
-					c.server.ErrorLog.Printf("no cmpp active test response returned from %v[%d] for %d times!",
+					c.server.ErrorLog.Printf("no cmpp active test response returned from %v idx=[%d] for %d times!",
 						c.Conn.RemoteAddr(), c.Conn.Idx, c.n)
 					exceed <- struct{}{}
 					break
@@ -383,7 +383,7 @@ func startActiveTest(c *conn) {
 				p := &CmppActiveTestReqPkt{}
 				err := c.Conn.SendPkt(p, <-c.Conn.SeqId)
 				if err != nil {
-					c.server.ErrorLog.Printf("send cmpp active test request to %v[%d] error: %v", c.Conn.RemoteAddr(), c.Conn.Idx, err)
+					c.server.ErrorLog.Printf("send cmpp active test request to %v idx=[%d] error: %v", c.Conn.RemoteAddr(), c.Conn.Idx, err)
 				} else {
 					atomic.AddInt32(&c.counter, 1)
 				}
@@ -396,7 +396,7 @@ func startActiveTest(c *conn) {
 func (c *conn) serve() {
 	defer func() {
 		if err := recover(); err != nil {
-			c.server.ErrorLog.Printf("panic serving %v[%d]: %v\n", c.Conn.RemoteAddr(), c.Conn.Idx, err)
+			c.server.ErrorLog.Printf("panic serving %v idx=[%d]: %v\n", c.Conn.RemoteAddr(), c.Conn.Idx, err)
 		}
 	}()
 
