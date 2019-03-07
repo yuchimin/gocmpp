@@ -41,7 +41,7 @@ const (
 )
 
 type Conn struct {
-	idx uint32
+	Idx uint32
 	net.Conn
 	State State
 	Typ   Type
@@ -76,7 +76,7 @@ func newSeqIdGenerator() (<-chan uint32, chan<- struct{}) {
 func NewConn(conn net.Conn, typ Type) *Conn {
 	seqId, done := newSeqIdGenerator()
 	c := &Conn{
-		idx: <-seqId,
+		Idx: <-seqId,
 		Conn:  conn,
 		Typ:   typ,
 		SeqId: seqId,

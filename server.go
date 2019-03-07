@@ -332,11 +332,11 @@ func (c *conn) close() {
 
 	err := c.Conn.SendPkt(p, <-c.Conn.SeqId)
 	if err != nil {
-		c.server.ErrorLog.Printf("send cmpp terminate request packet to %v[%d] error: %v\n", c.Conn.RemoteAddr(), c.Conn.idx, err)
+		c.server.ErrorLog.Printf("send cmpp terminate request packet to %v[%d] error: %v\n", c.Conn.RemoteAddr(), c.Conn.Idx, err)
 	}
 
 	close(c.done)
-	c.server.ErrorLog.Printf("close connection with %v[%d]!\n", c.Conn.RemoteAddr(), c.Conn.idx)
+	c.server.ErrorLog.Printf("close connection with %v[%d]!\n", c.Conn.RemoteAddr(), c.Conn.Idx)
 	c.Conn.Close()
 }
 
@@ -375,7 +375,7 @@ func startActiveTest(c *conn) {
 				// check whether c.counter exceeds
 				if atomic.LoadInt32(&c.counter) >= c.n {
 					c.server.ErrorLog.Printf("no cmpp active test response returned from %v[%d] for %d times!",
-						c.Conn.RemoteAddr(), c.Conn.idx, c.n)
+						c.Conn.RemoteAddr(), c.Conn.Idx, c.n)
 					exceed <- struct{}{}
 					break
 				}
@@ -383,7 +383,7 @@ func startActiveTest(c *conn) {
 				p := &CmppActiveTestReqPkt{}
 				err := c.Conn.SendPkt(p, <-c.Conn.SeqId)
 				if err != nil {
-					c.server.ErrorLog.Printf("send cmpp active test request to %v[%d] error: %v", c.Conn.RemoteAddr(), c.Conn.idx, err)
+					c.server.ErrorLog.Printf("send cmpp active test request to %v[%d] error: %v", c.Conn.RemoteAddr(), c.Conn.Idx, err)
 				} else {
 					atomic.AddInt32(&c.counter, 1)
 				}
@@ -396,7 +396,7 @@ func startActiveTest(c *conn) {
 func (c *conn) serve() {
 	defer func() {
 		if err := recover(); err != nil {
-			c.server.ErrorLog.Printf("panic serving %v[%d]: %v\n", c.Conn.RemoteAddr(), c.Conn.idx, err)
+			c.server.ErrorLog.Printf("panic serving %v[%d]: %v\n", c.Conn.RemoteAddr(), c.Conn.Idx, err)
 		}
 	}()
 
