@@ -47,6 +47,7 @@ type Conn struct {
 	Typ   Type
 	//set the sp id when connected
 	SpId  string 
+	SmsParser *SmsParser
 	// for SeqId generator goroutine
 	SeqId <-chan uint32
 	done  chan<- struct{}
@@ -81,6 +82,7 @@ func NewConn(conn net.Conn, typ Type) *Conn {
 		Typ:   typ,
 		SeqId: seqId,
 		done:  done,
+		SmsParser: &SmsParser {}, //短信解析器
 	}
 	tc := c.Conn.(*net.TCPConn) // Always tcpconn
 	tc.SetKeepAlive(true)       //Keepalive as default
