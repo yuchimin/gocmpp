@@ -11,7 +11,6 @@ type SmsParser struct {
 	key string	//关键字
 	fmt uint8		//编码格式
 	total uint8	//分片总数
-	len int 		//总字节长度
 	msgIds []uint64	//个分片的MsgId
 	segments [][]byte //分片数据
 }
@@ -20,9 +19,13 @@ func (p *SmsParser) reset(key string, fmt uint8, total uint8) {
 	p.key = key
 	p.fmt = fmt
 	p.total = total
-	p.len = 0
-	p.msgIds = make([]uint64, total)
-	p.segments = make([][]byte, total)
+	if total > 0 {
+		p.msgIds = make([]uint64, total)
+		p.segments = make([][]byte, total)
+	} else {
+		p.msgIds = nil
+		p.segments = nil
+	}
 }
 
 func (p *SmsParser) Parse(biz string, phoneNum string, msgId uint64, tpUdhi uint8, msgFmt uint8, msgContent string) (string, []uint64, error) {
@@ -40,7 +43,6 @@ func (p *SmsParser) Parse(biz string, phoneNum string, msgId uint64, tpUdhi uint
 
 		p.segments[h_index-1] = buf[h_len+1:]
 		p.msgIds[h_index-1] = msgId
-		p.len += len(p.segments[h_index-1])
 
 		for i := uint8(0); i < h_total; i++ {
 			if p.segments[i] == nil {
@@ -51,7 +53,7 @@ func (p *SmsParser) Parse(biz string, phoneNum string, msgId uint64, tpUdhi uint
 		buf = bytes.Join(p.segments, []byte(""))
 		cont, err := getMsgContent(string(buf), p.fmt)
 		ids := p.msgIds[:]
-		p.reset("", 8, 1)
+		p.reset("", 8, 0)
 		return cont, ids, err
 	} else {
 		//普通短信
